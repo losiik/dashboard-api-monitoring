@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+
+  db:
+    image: postgres:15
+    container_name: monitoring_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_MAIN_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5439:5439"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  monitor:
+    build: .
+    container_name: api_monitor
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  grafana:
+    image: grafana/grafana:10.4.2
+    container_name: monitoring_grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  postgres_data:
+  grafana_data:
