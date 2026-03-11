@@ -1,13 +1,10 @@
 FROM python:3.12
 
-WORKDIR /app
 
-COPY requirements.txt .
-
+# устанавливаем зависимости
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app ./app
 
-ENV PYTHONPATH=/app
 
-CMD ["python", "-m", "main"]
+CMD ["python", "main.py"]

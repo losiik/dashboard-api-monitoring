@@ -11,7 +11,7 @@ from app.scheduler import start_scheduler
 
 
 def main():
-    backend = get_backend(settings.sql_alchemy_connection_url.replace("+asyncpg", ""))
+    backend = get_backend(settings.sql_alchemy_connection_url.replace("+psycopg2", ""))
     migrations = read_migrations('./migrations')
 
     with backend.lock():
