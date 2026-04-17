@@ -1,3 +1,5 @@
 .env
 .idea
 .DSstrore
+__pycache__/
+*.pyc
